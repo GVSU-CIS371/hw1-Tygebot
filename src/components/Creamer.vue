@@ -1,10 +1,34 @@
 <template>
   <div class="froth">
-    <div v-for=" in 5" class="foam"></div>
+    <div v-for="n in 5" :key="n" :class="['foam', creamerClass]"></div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { computed } from 'vue';
+import { defineProps } from 'vue';
+
+const props = defineProps({
+  currentCreamer: {
+    type: String,
+    required: true
+  }
+});
+
+const creamerClass = computed(() => {
+  switch (props.currentCreamer) {
+    case 'Milk':
+      return 'milk';
+    case 'Cream':
+      return 'cream';
+    case 'Half & Half':
+      return 'half-and-half';
+    default:
+      return '';
+  }
+});
+</script>
+
 <style lang="scss" scoped>
 .froth {
   overflow: visible;
@@ -12,16 +36,27 @@
   position: relative;
   height: 20%;
   width: 100%;
-  background-color: #c6c6c6;
   animation: pour-tea 2s 2s forwards;
 }
+
 .foam {
   display: block;
-  background: #e4e0d2;
   border-radius: 30px;
   height: 40px;
   width: 40px;
   position: absolute;
+}
+
+.milk {
+  background-color: #f0e5cf;
+}
+
+.cream {
+  background-color: #fffdd0;
+}
+
+.half-and-half {
+  background-color: #f5deb3;
 }
 
 .foam:nth-child(1) {
